@@ -1,0 +1,20 @@
+import jwt from 'jsonwebtoken';
+
+export default (req, res, next) => {
+    const token = (req.headers.authorization || '').replace(/Bearer\s?/, '');
+
+    if (token) {
+        try {
+            const decodedToken = jwt.verify(token, 'privateKey');
+
+            req.userId = decodedToken._id;
+            next();
+        } catch (err) {
+            return res.status(400).json({ message: 'Нет доступа' })
+        }
+    } else {
+        return res.status(400).json({
+            message: 'Нет доступа',
+        })
+    }
+}
