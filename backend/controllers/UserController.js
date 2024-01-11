@@ -76,7 +76,7 @@ export const auth = async (req, res) => {
     }
 };
 
-export const getMe = async (req, res) => {
+export const getProfile = async (req, res) => {
     try {
         const user = await UserModel.findById(req.userId);
 

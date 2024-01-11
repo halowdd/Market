@@ -3,10 +3,11 @@ import mongoose from 'mongoose';
 import { authValidation } from './validations/auth.js';
 import { productCreateValidation } from "./validations/productCreate.js";
 import checkAuth from './utils/checkAuth.js';
+import cors from 'cors';
 import * as UserController from "./controllers/UserController.js";
 import * as ProductController from "./controllers/ProductController.js";
-import multer from 'multer';
 import { handleValidationErrors } from "./utils/handleValidationErrors.js";
+import {getProfile} from "./controllers/UserController.js";
 
 
 mongoose.connect(
@@ -17,25 +18,9 @@ mongoose.connect(
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
-const storage = multer.diskStorage({
-    destination: (_, __, cb) => {
-        cb(null, 'uploads');
-    },
-    filename: (_, file, cb) => {
-      cb(null, file.originalname);
-    },
-})
-
-const upload = multer({ storage });
-
-app.post('/upload', checkAuth, upload.single('image'), (req, res) => {
-    res.json({
-        url: `/uploads/${req.file.originalname}`,
-    });
-});
-
-app.get('/auth/me', checkAuth, UserController.getMe);
+app.get('/auth/profile', checkAuth, UserController.getProfile);
 app.post('/register', handleValidationErrors, authValidation, UserController.register);
 app.post('/auth', handleValidationErrors, authValidation, UserController.auth);
 
