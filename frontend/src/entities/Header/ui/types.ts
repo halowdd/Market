@@ -1,3 +1,3 @@
 export interface ILinkContainerStyledProps {
-    isActive: boolean,
+  isActive: boolean
 }

@@ -1,30 +1,29 @@
-import React, { useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
-import { mainMenuRoutes, routes } from './app/routes';
-import { Header } from './entities/Header/ui';
-import { useActions } from './hooks/redux';
-import { PRODUCTS_MOCK_DATA } from '__mocks__/productsMock';
-import { HomePage } from './pages';
-
+import React, { useEffect } from 'react'
+import { Routes, Route } from 'react-router-dom'
+import { mainMenuRoutes, routes } from './app/routes'
+import { Header } from './entities/Header/ui'
+import { HomePage } from './pages'
+import { useDispatch } from 'react-redux'
+import { AppDispatch } from './store'
+import { fetchAuthProfile } from './store/auth/auth.slice'
 
 function App() {
-  const { setProducts } = useActions()
-
+  const dispatch = useDispatch<AppDispatch>()
   useEffect(() => {
-      setProducts(PRODUCTS_MOCK_DATA)
+    dispatch(fetchAuthProfile())
   }, [])
 
   return (
-      <>
-        <Header routes={mainMenuRoutes} />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          {routes.map((route, index) => (
-              <Route key={index} path={route.path} element={route.component} />
-          ))}
-        </Routes>
-      </>
-  );
+    <>
+      <Header routes={mainMenuRoutes} />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        {routes.map((route, index) => (
+          <Route key={index} path={route.path} element={route.component} />
+        ))}
+      </Routes>
+    </>
+  )
 }
 
-export default App;
+export default App

@@ -1,23 +1,31 @@
-import React from 'react';
-import {useAppSelector} from '../../hooks/redux';
-import {getProductById} from '../../store/products/products.slice';
-import { useParams } from 'react-router-dom';
-
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import axios from 'app/axios'
+import { IProduct } from 'app/types'
 
 export const ProductPage = () => {
-    let { productId } = useParams();
-    const productByIdFromUrl = useAppSelector(state => getProductById(state, Number(productId)))
+  let { productId = '' } = useParams()
+  const [product, setProduct] = useState<IProduct | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const [errorMessage, setErrorMessage] = useState(false)
 
-    if (!productByIdFromUrl) {
-        return (
-            <div>
-                продукт не найден
-            </div>
-        )
-    }
-    return (
-        <div>
-            Это страница продукта {productByIdFromUrl.id}
-        </div>
-    )
+  useEffect(() => {
+    setIsLoading(true)
+    axios
+      .get(`/products/${productId}`)
+      .then((res) => setProduct(res.data))
+      .catch((err) => setErrorMessage(err.response.data.message))
+      .finally(() => setIsLoading(false))
+  }, [])
+
+  if (errorMessage) {
+    return <p>{errorMessage}</p>
+  }
+  if (isLoading) {
+    return <p>Загружается...</p>
+  }
+  if (!product) {
+    return <div>продукт не найден</div>
+  }
+  return <div>Это страница продукта {product._id}</div>
 }

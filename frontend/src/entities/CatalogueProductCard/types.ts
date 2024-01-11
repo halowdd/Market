@@ -1,7 +1,7 @@
 export interface IProductContainerStyled {
-    withImageAnimation: boolean
+  withImageAnimation: boolean
 }
 
 export interface IFavouriteIconStyled {
-    isFavourite: boolean
+  isFavourite: boolean
 }

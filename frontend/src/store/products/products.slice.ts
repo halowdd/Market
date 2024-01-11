@@ -1,45 +1,68 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { IProduct } from 'app/types';
-import { RootState } from 'store/index';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { IProduct } from 'app/types'
+import { RootState } from 'store/index'
+import axios from '../../app/axios'
 
+export const fetchProducts = createAsyncThunk(
+  'products/fetchProducts',
+  async () => {
+    const { data } = await axios.get('/products')
+    return data
+  }
+)
 
 interface ProductsState {
-    products: IProduct[]
+  products: {
+    items: IProduct[]
+    isLoading: boolean
+    isError: boolean
+  }
 }
 
 const initialState: ProductsState = {
-    products: [],
+  products: {
+    items: [],
+    isLoading: false,
+    isError: false,
+  },
 }
 
 export const productsSlice = createSlice({
-    name: 'products',
-    initialState,
-    reducers: {
-        setProducts(state, action: PayloadAction<IProduct[]>) {
-            return {
-                ...state,
-                products: action.payload,
-            }
-        },
-        setFavourite(state, action: PayloadAction<number>) {
-            const mutatedProducts = state.products.map(product => {
-                if (product.id === action.payload) {
-                    return { ...product, isFavourite: !product.isFavourite}
-                } else {
-                    return {...product}
-                }
-            })
-            return {
-                ...state,
-                products: mutatedProducts,
-            }
-        },
-    }
-});
+  name: 'products',
+  initialState,
+  reducers: {
+    setFavourite(state, action: PayloadAction<string>) {
+      const mutatedProducts = state.products.items.map((product) => {
+        if (product._id === action.payload) {
+          return { ...product, isFavourite: !product.isFavourite }
+        } else {
+          return { ...product }
+        }
+      })
+      return {
+        ...state,
+        items: mutatedProducts,
+      }
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchProducts.pending, (state) => {
+      state.products.isLoading = true
+    })
+    builder.addCase(fetchProducts.fulfilled, (state, action) => {
+      state.products.items = action.payload
+      state.products.isLoading = false
+    })
+    builder.addCase(fetchProducts.rejected, (state) => {
+      state.products.items = []
+      state.products.isError = true
+    })
+  },
+})
 
-export const getAllProducts = (state: RootState) => state.products.products;
-export const getProductById = (state: RootState, productId: number) => state.products.products.find(product => product.id === productId);
-export const getFavouriteProducts = (state: RootState) => state.products.products.filter(product => product.isFavourite);
+export const getAllProducts = (state: RootState) => state.products.products
+export const getFavouriteProducts = (state: RootState) =>
+  state.products.products.items.filter((product) => product.isFavourite)
 
 export const productReducer = productsSlice.reducer
 export const productActions = productsSlice.actions
