@@ -55,9 +55,12 @@ export const Header = ({ routes }: IProps) => {
         </FavouriteBlockStyled>
         <CartPopper />
         {isAuth ? (
-          <Button onClick={onLogout} variant="outlined" color="error">
-            Выйти
-          </Button>
+          <>
+            <Link to="/profile">Профиль</Link>
+            <Button onClick={onLogout} variant="outlined" color="error">
+              Выйти
+            </Button>
+          </>
         ) : (
           <>
             <Link to="/login">Войти</Link>

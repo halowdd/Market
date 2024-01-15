@@ -19,15 +19,20 @@ export const fetchAuthProfile = createAsyncThunk(
 )
 
 export const fetchRegister = createAsyncThunk(
-    'auth/fetchRegister',
-    async (params: { login: string; password: string }) => {
-      const { data } = await axios.post('/register', params)
-      return data
-    }
+  'auth/fetchRegister',
+  async (params: { login: string; password: string }) => {
+    const { data } = await axios.post('/register', params)
+    return data
+  }
 )
 
 interface AuthState {
-  data: null
+  data: {
+    _id: string
+    login: string
+    is_admin: boolean
+    favouriteProducts: string[]
+  } | null
   isLoading: boolean
   isError: boolean
 }
@@ -50,7 +55,9 @@ const authSlice = createSlice({
       state.isLoading = true
     })
     builder.addCase(fetchAuth.fulfilled, (state, action) => {
-      state.data = action.payload
+      if (action.payload._id) {
+        state.data = action.payload
+      }
       state.isLoading = false
     })
     builder.addCase(fetchAuth.rejected, (state) => {
@@ -80,5 +87,8 @@ const authSlice = createSlice({
 })
 
 export const isAuthenticated = (state: RootState) => Boolean(state.auth.data)
+export const isAdminLicense = (state: RootState) =>
+  Boolean(state.auth.data && state.auth.data.is_admin)
+export const getFavouriteProducts = (state: RootState) => state.auth.data?.favouriteProducts || []
 export const authReducer = authSlice.reducer
 export const authActions = authSlice.actions

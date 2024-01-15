@@ -8,6 +8,7 @@ import {
   RegistrationPage,
 } from 'pages'
 import { IRoute } from './types'
+import {ProfilePage} from "../pages/ProfilePage";
 
 export const routes: IRoute[] = [
   {
@@ -43,6 +44,11 @@ export const routes: IRoute[] = [
     path: '/registration',
     isMainMenu: false,
     component: <RegistrationPage />,
+  },
+  {
+    path: '/profile',
+    isMainMenu: false,
+    component: <ProfilePage />,
   },
 ]
 

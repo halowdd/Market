@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { IProduct } from 'app/types'
 import { RootState } from 'store/index'
-import axios from '../../app/axios'
+import axios from 'app/axios'
 
 export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
@@ -30,21 +30,7 @@ const initialState: ProductsState = {
 export const productsSlice = createSlice({
   name: 'products',
   initialState,
-  reducers: {
-    setFavourite(state, action: PayloadAction<string>) {
-      const mutatedProducts = state.products.items.map((product) => {
-        if (product._id === action.payload) {
-          return { ...product, isFavourite: !product.isFavourite }
-        } else {
-          return { ...product }
-        }
-      })
-      return {
-        ...state,
-        items: mutatedProducts,
-      }
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchProducts.pending, (state) => {
       state.products.isLoading = true

@@ -14,12 +14,24 @@ import {
   AddToCardButtonStyled,
 } from './index.styled'
 import { HeartIcon, WithoutImage } from 'app/static'
-import { useActions } from 'hooks/redux'
+import { useActions, useAppSelector } from 'hooks/redux'
+import axios from 'app/axios'
+import { getFavouriteProducts } from 'store/auth/auth.slice'
 
 export const CatalogueProductCard = (product: IProduct) => {
-  const { _id, image, price, title, discount, isFavourite } = product
-  const { setFavourite, setProductToCart } = useActions()
+  const { _id, image, price, title, discount } = product
+  const { setProductToCart } = useActions()
   const finalPrice = discount ? (price / 100) * (100 - discount) : price
+
+  const allFavouriteProducts = useAppSelector(getFavouriteProducts)
+  const isFavourite = allFavouriteProducts?.includes(product._id)
+  console.log(allFavouriteProducts)
+  const onFavouriteClick = () => {
+    if (isFavourite) {
+      return axios.delete(`/favourites/${product._id}`);
+    }
+    return axios.post(`/favourites/${product._id}`);
+  }
 
   return (
     <ProductContainerStyled withImageAnimation={Boolean(image)}>
@@ -32,7 +44,7 @@ export const CatalogueProductCard = (product: IProduct) => {
             width="20px"
             height="20px"
             color={isFavourite ? '#B81E1F' : '#FFFFFF'}
-            onClick={() => setFavourite(_id)}
+            onClick={onFavouriteClick}
           />
         </FavouriteIconStyled>
       </HeaderMenuProductStyled>
