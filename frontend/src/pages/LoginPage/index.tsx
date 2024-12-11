@@ -1,12 +1,14 @@
 import React from 'react'
 import { ContainerStyled, FormStyled, PaperStyled } from './index.styled'
-import { Button, TextField, Typography } from '@mui/material'
+import { TextField, Typography } from '@mui/material'
+import { Button } from "../../shared/Button/ui";
 import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
 import { fetchAuth, isAuthenticated } from 'store/auth/auth.slice'
 import { useAppSelector } from 'hooks/redux'
 import { AppDispatch } from 'store'
 import { Navigate } from 'react-router-dom'
+import { BUTTON_SIZE_VARIANT } from '../../shared/Button/config/enums'
 
 export const LoginPage = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -25,7 +27,7 @@ export const LoginPage = () => {
   const onSubmit = async (values: { login: string; password: string }) => {
     const profile = await dispatch(fetchAuth(values))
     if (Boolean(profile.payload.token)) {
-      window.localStorage.setItem('token',profile.payload.token )
+      window.localStorage.setItem('token', profile.payload.token)
     }
   }
 
@@ -55,7 +57,11 @@ export const LoginPage = () => {
             {...register('password', { required: 'Укажите пароль' })}
             fullWidth
           />
-          <Button type="submit" variant="contained" fullWidth>
+          <Button
+            commonProps={{ type: 'submit' }}
+            fullWidth
+            size={BUTTON_SIZE_VARIANT.small}
+          >
             Авторизоваться
           </Button>
         </FormStyled>

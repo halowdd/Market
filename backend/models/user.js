@@ -13,7 +13,12 @@ const UserSchema = new mongoose.Schema({
     },
     is_admin: {
         type: Boolean,
+        default: false,
     },
+    favourites: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Product'
+    }],
 }, {
     timestamps: true,
 });

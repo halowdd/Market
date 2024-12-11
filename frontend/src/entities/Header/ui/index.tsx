@@ -1,7 +1,7 @@
 import React from 'react'
 import { IRoute } from 'app/types'
 import { useLocation, Link } from 'react-router-dom'
-import { Button, Typography, useMediaQuery } from '@mui/material'
+import { Typography, useMediaQuery } from '@mui/material'
 import {
   HeaderContainerStyled,
   NavigationListContainerStyled,
@@ -14,6 +14,11 @@ import { HeartIcon } from 'app/static'
 import { CartPopper } from '../../CartPopper'
 import { useActions, useAppSelector } from '../../../hooks/redux'
 import { isAuthenticated } from '../../../store/auth/auth.slice'
+import {
+  BUTTON_SIZE_VARIANT,
+  BUTTON_VARIANT,
+} from '../../../shared/Button/config/enums'
+import {Button} from "../../../shared/Button/ui";
 
 interface IProps {
   routes: IRoute[]
@@ -53,11 +58,11 @@ export const Header = ({ routes }: IProps) => {
           <HeartIcon />
           <Typography variant="body2">Избранное</Typography>
         </FavouriteBlockStyled>
-        <CartPopper />
+        {/*<CartPopper />*/}
         {isAuth ? (
           <>
             <Link to="/profile">Профиль</Link>
-            <Button onClick={onLogout} variant="outlined" color="error">
+            <Button onClick={onLogout} variant={BUTTON_VARIANT.error}>
               Выйти
             </Button>
           </>

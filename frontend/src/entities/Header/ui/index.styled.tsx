@@ -31,11 +31,11 @@ export const LinkContainerStyled = styled(Link, {
   justifyContent: 'center',
   height: '100%',
   textDecoration: 'none',
-  color: isActive ? '#FFCC33' : 'black',
+  color: isActive ? '#E5C958' : 'black',
   background: 'none',
   '&:hover': {
     '#label': {
-      color: '#FFCC33',
+      color: '#E5C958',
     },
   },
   '::after': {
@@ -44,7 +44,7 @@ export const LinkContainerStyled = styled(Link, {
     top: 48,
     width: isActive ? '100%' : '0%',
     height: '2px',
-    backgroundColor: '#FFCC33',
+    backgroundColor: '#E5C958',
     borderRadius: '12px',
     transition: 'width .3s ease-in-out',
   },
@@ -81,10 +81,10 @@ export const FavouriteBlockStyled = styled(Link)({
   },
   '&:hover': {
     svg: {
-      color: '#B81E1F',
+      color: '#D32F2F',
     },
     '.MuiTypography-root': {
-      color: '#B81E1F',
+      color: '#D32F2F',
     },
   },
 })

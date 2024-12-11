@@ -11,12 +11,13 @@ import {
   ProductPriceBlockStyled,
   ProductFinalPriceStyled,
   ProductPriceWithoutDiscountStyled,
-  AddToCardButtonStyled,
 } from './index.styled'
 import { HeartIcon, WithoutImage } from 'app/static'
 import { useActions, useAppSelector } from 'hooks/redux'
 import axios from 'app/axios'
 import { getFavouriteProducts } from 'store/auth/auth.slice'
+import { Button } from "../../shared/Button/ui";
+import { BUTTON_SIZE_VARIANT } from "../../shared/Button/config/enums";
 
 export const CatalogueProductCard = (product: IProduct) => {
   const { _id, image, price, title, discount } = product
@@ -25,7 +26,7 @@ export const CatalogueProductCard = (product: IProduct) => {
 
   const allFavouriteProducts = useAppSelector(getFavouriteProducts)
   const isFavourite = allFavouriteProducts?.includes(product._id)
-  console.log(allFavouriteProducts)
+
   const onFavouriteClick = () => {
     if (isFavourite) {
       return axios.delete(`/favourites/${product._id}`);
@@ -65,12 +66,13 @@ export const CatalogueProductCard = (product: IProduct) => {
             </ProductPriceWithoutDiscountStyled>
           ) : null}
         </ProductPriceBlockStyled>
-        <AddToCardButtonStyled
-          id="cartBtn"
+        <Button
           onClick={() => setProductToCart(product)}
+          fullWidth
+          size={BUTTON_SIZE_VARIANT.small}
         >
           В корзину
-        </AddToCardButtonStyled>
+        </Button>
       </div>
     </ProductContainerStyled>
   )

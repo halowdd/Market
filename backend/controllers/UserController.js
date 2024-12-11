@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import UserModel from "../models/user.js";
 import jwt from "jsonwebtoken";
 
+
 export const register = async (req, res) => {
     try {
         const passwordHash = req.body.password;

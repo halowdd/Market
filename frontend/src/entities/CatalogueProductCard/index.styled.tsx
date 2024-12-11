@@ -15,7 +15,7 @@ export const ProductContainerStyled = styled('div', {
       transform: withImageAnimation ? 'scale(1.05) rotate(1deg)' : 'none',
     },
     '#title': {
-      color: '#FFCC33',
+      color: '#E5C958',
     },
     '#cartBtn': {
       opacity: 1,
@@ -33,7 +33,7 @@ export const HeaderMenuProductStyled = styled('div')({
 })
 
 export const DiscountBadgeStyled = styled(Typography)({
-  backgroundColor: '#FFCC33',
+  backgroundColor: '#E5C958',
   borderRadius: '12px',
   padding: '2px 4px',
   width: 'fit-content',
@@ -47,7 +47,7 @@ export const FavouriteIconStyled = styled('div', {
   cursor: 'pointer',
   svg: {
     '&:hover': {
-      color: isFavourite ? '#B81E1F' : '#FF3333',
+      color: isFavourite ? '#D32F2F' : '#F5501F',
     },
     transition: '.3s ease-in-out',
   },
@@ -89,15 +89,4 @@ export const ProductPriceWithoutDiscountStyled = styled(Typography)({
   color: '#999999',
   fontWeight: '400',
   textDecoration: 'line-through',
-})
-
-export const AddToCardButtonStyled = styled('button')({
-  opacity: 0,
-  transition: '.3s ease-in-out',
-  width: '100%',
-  backgroundColor: '#FFCC33',
-  border: 'none',
-  borderRadius: '8px',
-  padding: '8px 24px',
-  cursor: 'pointer',
 })

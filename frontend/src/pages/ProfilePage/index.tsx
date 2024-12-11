@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
-import { Button, TextField } from '@mui/material'
+import { TextField } from '@mui/material'
+import { Button } from "../../shared/Button/ui";
 import axios from 'app/axios'
 import { Navigate } from 'react-router-dom'
 import { useAppSelector } from 'hooks/redux'
 import { isAdminLicense } from 'store/auth/auth.slice'
+import { BUTTON_SIZE_VARIANT } from '../../shared/Button/config/enums'
 
 export const ProfilePage = () => {
   const [title, setTitle] = useState('')
@@ -16,7 +18,7 @@ export const ProfilePage = () => {
     axios.post('/products', params)
   }
 
-  if (isAdmin) {
+  if (!isAdmin) {
     return <Navigate to="/" />
   }
 
@@ -55,12 +57,12 @@ export const ProfilePage = () => {
         fullWidth
       />
       <Button
-        onClick={onSubmit}
-        variant="contained"
         fullWidth
+        size={BUTTON_SIZE_VARIANT.small}
+        onClick={onSubmit}
         disabled={!title || !price}
       >
-        Авторизоваться
+          Авторизоваться
       </Button>
     </form>
   )

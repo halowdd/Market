@@ -6,6 +6,8 @@ import { HomePage } from './pages'
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from './store'
 import { fetchAuthProfile } from './store/auth/auth.slice'
+import { SnackbarProvider } from 'notistack'
+
 
 function App() {
   const dispatch = useDispatch<AppDispatch>()
@@ -14,7 +16,7 @@ function App() {
   }, [])
 
   return (
-    <>
+    <SnackbarProvider>
       <Header routes={mainMenuRoutes} />
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -22,7 +24,7 @@ function App() {
           <Route key={index} path={route.path} element={route.component} />
         ))}
       </Routes>
-    </>
+    </SnackbarProvider>
   )
 }
 
